@@ -4,7 +4,18 @@ FastAPI Backend Application
 """
 
 import os
+import sys
 import pathlib
+
+# Ensure the project root is on sys.path so absolute package imports work
+# regardless of how this file is invoked:
+#   - locally:   python backend/app.py
+#   - module:    python -m backend.app
+#   - gunicorn:  gunicorn backend.app:app
+#   - uvicorn:   uvicorn backend.app:app (including reload workers)
+_PROJECT_ROOT = str(pathlib.Path(__file__).parent.parent.resolve())
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -22,8 +33,8 @@ BASE_DIR = pathlib.Path(__file__).parent.parent.resolve()
 load_dotenv(BASE_DIR / '.env')
 
 # ── DB + Models (imported after load_dotenv) ──────────────────────────
-from .database import engine, SessionLocal  # noqa: E402
-from .models import Base, AdminUser          # noqa: E402
+from backend.database import engine, SessionLocal  # noqa: E402
+from backend.models import Base, AdminUser          # noqa: E402
 
 
 # ── Database initialisation ───────────────────────────────────────────
@@ -89,7 +100,7 @@ app.add_middleware(
 
 # ── API routers ───────────────────────────────────────────────────────
 # Registered FIRST so all /api/* paths are resolved before the static catch-alls.
-from .routers import admin, chat, content, forms, upload  # noqa: E402
+from backend.routers import admin, chat, content, forms, upload  # noqa: E402
 
 app.include_router(admin.router)
 app.include_router(forms.router)
