@@ -4,11 +4,13 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies including nginx
+# Install system dependencies including nginx and supervisor
 RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
     nginx \
+    supervisor \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
@@ -23,18 +25,22 @@ COPY . .
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/sites-available/default
 
-# Create necessary directories
-RUN mkdir -p /app/images /app/instance /var/log/nginx
+# Copy supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Set permissions
-RUN chmod +x start-server.sh 2>/dev/null || echo "start-server.sh will be made executable"
+# Create necessary directories
+RUN mkdir -p /app/images /app/instance /var/log/nginx /var/log/supervisor
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_APP=backend/app.py
 
-# Expose port (nginx will listen on 80, but we expose 5000 for Flask)
-EXPOSE 5000 80
+# Expose ports
+EXPOSE 80 5000
 
-# Run the startup script
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 --workers 4 --timeout 120 --access-logfile - --error-logfile - backend.app:app & nginx -g 'daemon off;'"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:5000/api/status || exit 1
+
+# Run supervisor to manage both nginx and gunicorn
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
