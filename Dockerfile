@@ -25,12 +25,12 @@ RUN mkdir -p /app/images /app/instance
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 
-# Expose port 80 - EasyPanel routes external traffic to this port
-EXPOSE 80
+# Expose port 8000
+EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:80/api/status || exit 1
+  CMD curl -f http://localhost:8000/api/status || exit 1
 
-# Run FastAPI via gunicorn with uvicorn workers, directly on port 80
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--timeout", "120", "--access-logfile", "-", "--error-logfile", "-", "backend.app:app"]
+# Run FastAPI via gunicorn with uvicorn workers on port 8000
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--timeout", "120", "--access-logfile", "-", "--error-logfile", "-", "backend.app:app"]
