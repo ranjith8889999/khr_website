@@ -62,8 +62,17 @@ print("=" * 50)
 db = SQLAlchemy(app)
 mail = Mail(app)
 
-# Initialize Groq AI Client
-groq_client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+# Initialize Groq AI Client (graceful fallback if key is missing)
+try:
+    groq_api_key = os.getenv('GROQ_API_KEY')
+    if groq_api_key:
+        groq_client = Groq(api_key=groq_api_key)
+    else:
+        print("WARNING: GROQ_API_KEY not set. AI chat will be unavailable.")
+        groq_client = None
+except Exception as e:
+    print(f"WARNING: Failed to initialize Groq client: {e}")
+    groq_client = None
 
 # ============================================
 # DATABASE MODELS
@@ -1697,6 +1706,8 @@ def init_db():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     """AI Chat endpoint using Groq"""
+    if groq_client is None:
+        return jsonify({'success': False, 'message': 'AI service not configured. Please contact administrator.'}), 503
     try:
         data = request.json
         user_message = data.get('message', '').strip()
@@ -1787,6 +1798,12 @@ Remember: Use ONLY the information from the knowledge base above. Be accurate, h
         }), 500
 
 
-if __name__ == '__main__':
+# Initialize database when app starts (works with both gunicorn and direct run)
+try:
     init_db()
+except Exception as e:
+    print(f"WARNING: Database initialization error: {e}")
+    print("App will still start - database may need manual initialization.")
+
+if __name__ == '__main__':
     app.run(debug=True, port=5000)
