@@ -19,8 +19,13 @@ import hashlib
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # Initialize Flask app
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..'), static_url_path='')
+# NOTE: static_url_path must NOT be '' because that registers a /<path:filename> wildcard
+# endpoint named 'static' which conflicts with API routes in production (gunicorn).
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..'), static_url_path='/static_files')
 CORS(app)
+
+# Absolute path to the project root (parent of backend/)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 # Configuration
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'kolan-hanmanth-reddy-2024-secret-key')
@@ -767,16 +772,13 @@ def send_contact_confirmation_email(contact):
 @app.route('/')
 def index():
     """Home page"""
-    return send_from_directory(os.path.dirname(app.static_folder), 'index.html')
+    return send_from_directory(BASE_DIR, 'index.html')
 
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    """Serve static files"""
-    if filename.endswith('.html'):
-        return send_from_directory(os.path.dirname(app.static_folder), filename)
-    else:
-        return send_from_directory(os.path.dirname(app.static_folder), filename)
+    """Serve static files – only reached for non-API paths (API routes have higher Werkzeug priority)"""
+    return send_from_directory(BASE_DIR, filename)
 
 
 # ============================================
