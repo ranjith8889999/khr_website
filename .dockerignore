@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Environment files
+.env
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+instance/*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation (optional, uncomment if you don't want these in the image)
+# *.md
+# QUICKSTART.md
+# README.md
+
+# Testing
+test-forms.html

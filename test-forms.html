@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Forms - KHR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #ff9500; }
+        h2 { color: #333; margin-bottom: 20px; }
+        button {
+            background: #ff9500;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        button:hover { background: #e68900; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .result.show { display: block; }
+        pre {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Form Submission & Email Test</h1>
+    <p style="color: #666; margin-bottom: 30px;">Test all form submissions and verify emails are sent.</p>
+    
+    <!-- Complaint Test -->
+    <div class="test-section">
+        <h2>1. Public Complaint System</h2>
+        <button onclick="testComplaint()">Test Complaint Submission</button>
+        <div id="complaintResult" class="result"></div>
+    </div>
+    
+    <!-- Feedback Test -->
+    <div class="test-section">
+        <h2>2. Public Feedback System</h2>
+        <button onclick="testFeedback()">Test Feedback Submission</button>
+        <div id="feedbackResult" class="result"></div>
+    </div>
+    
+    <!-- Skills Test -->
+    <div class="test-section">
+        <h2>3. Skills for Youth Program</h2>
+        <button onclick="testSkills()">Test Skills Registration</button>
+        <div id="skillsResult" class="result"></div>
+    </div>
+    
+    <!-- Contact Test -->
+    <div class="test-section">
+        <h2>4. Contact Form</h2>
+        <button onclick="testContact()">Test Contact Submission</button>
+        <div id="contactResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testComplaint() {
+            const resultDiv = document.getElementById('complaintResult');
+            resultDiv.className = 'result';
+            resultDiv.textContent = 'Testing...';
+            resultDiv.classList.add('show');
+            
+            try {
+                const response = await fetch('/api/complaint', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        phone: '9876543210',
+                        email: 'ranjith888999@gmail.com',
+                        area: 'Bachupally',
+                        category: 'Infrastructure',
+                        subject: 'Test Complaint',
+                        message: 'This is a test complaint from the test page',
+                        address: 'Test Address, Quthbullapur'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.className = 'result success show';
+                    resultDiv.innerHTML = `
+                        <strong>✓ Success!</strong><br>
+                        ${result.message}<br>
+                        <strong>Reference Number:</strong> ${result.reference_number}<br>
+                        <small>Check email: ranjith888999@gmail.com</small>
+                    `;
+                } else {
+                    resultDiv.className = 'result error show';
+                    resultDiv.textContent = '✗ Error: ' + result.message;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error show';
+                resultDiv.textContent = '✗ Network Error: ' + error.message;
+            }
+        }
+        
+        async function testFeedback() {
+            const resultDiv = document.getElementById('feedbackResult');
+            resultDiv.className = 'result';
+            resultDiv.textContent = 'Testing...';
+            resultDiv.classList.add('show');
+            
+            try {
+                const response = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'ranjith888999@gmail.com',
+                        phone: '9876543210',
+                        category: 'Service Quality',
+                        rating: 5,
+                        message: 'This is test feedback from the test page'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.className = 'result success show';
+                    resultDiv.innerHTML = `
+                        <strong>✓ Success!</strong><br>
+                        ${result.message}<br>
+                        <small>Check email: ranjith888999@gmail.com</small>
+                    `;
+                } else {
+                    resultDiv.className = 'result error show';
+                    resultDiv.textContent = '✗ Error: ' + result.message;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error show';
+                resultDiv.textContent = '✗ Network Error: ' + error.message;
+            }
+        }
+        
+        async function testSkills() {
+            const resultDiv = document.getElementById('skillsResult');
+            resultDiv.className = 'result';
+            resultDiv.textContent = 'Testing...';
+            resultDiv.classList.add('show');
+            
+            try {
+                const response = await fetch('/api/skills-registration', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        phone: '9876543210',
+                        email: 'ranjith888999@gmail.com',
+                        dob: '2000-01-01',
+                        education: 'Graduate',
+                        institution: 'Test University',
+                        location: 'Bachupally',
+                        city: 'Hyderabad',
+                        motivation: 'This is a test registration for skills development program'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.className = 'result success show';
+                    resultDiv.innerHTML = `
+                        <strong>✓ Success!</strong><br>
+                        ${result.message}<br>
+                        <small>Check email: ranjith888999@gmail.com</small>
+                    `;
+                } else {
+                    resultDiv.className = 'result error show';
+                    resultDiv.textContent = '✗ Error: ' + result.message;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error show';
+                resultDiv.textContent = '✗ Network Error: ' + error.message;
+            }
+        }
+        
+        async function testContact() {
+            const resultDiv = document.getElementById('contactResult');
+            resultDiv.className = 'result';
+            resultDiv.textContent = 'Testing...';
+            resultDiv.classList.add('show');
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'ranjith888999@gmail.com',
+                        phone: '9876543210',
+                        subject: 'Test Contact Message',
+                        message: 'This is a test message from the contact form test page'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.className = 'result success show';
+                    resultDiv.innerHTML = `
+                        <strong>✓ Success!</strong><br>
+                        ${result.message}<br>
+                        <small>Check email: ranjith888999@gmail.com</small>
+                    `;
+                } else {
+                    resultDiv.className = 'result error show';
+                    resultDiv.textContent = '✗ Error: ' + result.message;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error show';
+                resultDiv.textContent = '✗ Network Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

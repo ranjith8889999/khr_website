@@ -1,0 +1,626 @@
+/* ============================================
+   ANIMATIONS & TRANSITIONS
+   ============================================ */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Down */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Left */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade In Right */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Zoom In */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Slide Down */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Up */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Bounce */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Glow */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 149, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 149, 0, 0.5);
+    }
+}
+
+/* Shimmer */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Rotate */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Button Glow */
+@keyframes buttonGlow {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(255, 149, 0, 0.6);
+    }
+}
+
+@keyframes buttonGlowBlue {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(0, 61, 122, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(0, 61, 122, 0.6);
+    }
+}
+
+/* ============================================
+   ELEMENT ANIMATIONS
+   ============================================ */
+
+/* Hero Section */
+.hero-content {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-title {
+    animation: fadeInDown 0.6s ease-out 0.2s backwards;
+}
+
+.hero-tagline {
+    animation: fadeIn 0.8s ease-out 0.4s backwards;
+}
+
+.hero-subtitle {
+    animation: fadeIn 0.8s ease-out 0.5s backwards;
+}
+
+.hero-buttons {
+    animation: fadeInUp 0.8s ease-out 0.6s backwards;
+}
+
+.scroll-indicator {
+    animation: bounce 2s infinite;
+}
+
+/* Section Titles */
+.section-title {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.section-title::after {
+    animation: slideUp 0.6s ease-out 0.2s backwards;
+}
+
+/* Cards - AOS Integration */
+[data-aos="fade-up"] {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+[data-aos="fade-down"] {
+    opacity: 0;
+    animation: fadeInDown 0.6s ease-out forwards;
+}
+
+[data-aos="fade-left"] {
+    opacity: 0;
+    animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+[data-aos="fade-right"] {
+    opacity: 0;
+    animation: fadeInRight 0.6s ease-out forwards;
+}
+
+[data-aos="zoom-in"] {
+    opacity: 0;
+    animation: zoomIn 0.6s ease-out forwards;
+}
+
+/* Navigation */
+.navbar {
+    animation: slideDown 0.4s ease-out;
+}
+
+.nav-item {
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    transform: translateY(-3px);
+}
+
+.nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    bottom: -5px;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* About Image */
+.about-image {
+    animation: zoomIn 0.8s ease-out;
+}
+
+.about-image img {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.about-image:hover img {
+    animation: pulse 0.6s ease;
+}
+
+/* Timeline */
+.timeline-dot {
+    animation: pulse 2s infinite;
+}
+
+/* Timeline content animations based on left/right positioning */
+.timeline-content.left {
+    animation: fadeInRight 0.8s ease-out;
+}
+
+.timeline-content.right {
+    animation: fadeInLeft 0.8s ease-out;
+}
+
+.timeline-content.left:hover {
+    animation: none;
+}
+
+.timeline-content.right:hover {
+    animation: none;
+}
+
+/* Cards Hover Effects */
+.vision-card,
+.focus-card,
+.community-card,
+.news-card,
+.media-card,
+.testimonial-card,
+.stat-card {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vision-card:hover {
+    animation: glow 0.6s ease;
+}
+
+.focus-card:hover {
+    animation: bounce 0.4s ease;
+}
+
+.community-card:hover .community-image img {
+    animation: zoom 0.4s ease;
+}
+
+.news-card:hover {
+    animation: slideUp 0.3s ease;
+}
+
+/* Icon Animations */
+.vision-icon,
+.focus-icon,
+.contact-icon {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vision-card:hover .vision-icon,
+.focus-card:hover .vision-icon {
+    animation: rotate 0.6s ease;
+}
+
+.contact-item:hover .contact-icon {
+    animation: bounce 0.4s ease;
+}
+
+/* Button Animations */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:active {
+    animation: pulse 0.2s ease;
+}
+
+.hero-buttons .btn:hover {
+    animation: bounce 0.3s ease;
+}
+
+/* Form Animations */
+.form-group {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.form-group:nth-child(1) { animation-delay: 0s; }
+.form-group:nth-child(2) { animation-delay: 0.1s; }
+.form-group:nth-child(3) { animation-delay: 0.2s; }
+.form-group:nth-child(4) { animation-delay: 0.3s; }
+.form-group:nth-child(5) { animation-delay: 0.4s; }
+.form-group:nth-child(6) { animation-delay: 0.5s; }
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    animation: glow 0.3s ease;
+}
+
+/* Gallery Animations */
+.gallery-item {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.gallery-item:nth-child(1) { animation-delay: 0s; }
+.gallery-item:nth-child(2) { animation-delay: 0.1s; }
+.gallery-item:nth-child(3) { animation-delay: 0.2s; }
+.gallery-item:nth-child(4) { animation-delay: 0.3s; }
+.gallery-item:nth-child(5) { animation-delay: 0.4s; }
+.gallery-item:nth-child(6) { animation-delay: 0.5s; }
+
+/* Lightbox Animation */
+.lb-container {
+    animation: zoomIn 0.3s ease;
+}
+
+/* Footer */
+.footer {
+    animation: slideUp 0.5s ease-out;
+}
+
+.footer-section {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.footer-section:nth-child(1) { animation-delay: 0s; }
+.footer-section:nth-child(2) { animation-delay: 0.1s; }
+.footer-section:nth-child(3) { animation-delay: 0.2s; }
+.footer-section:nth-child(4) { animation-delay: 0.3s; }
+
+/* Back to Top Button */
+.back-to-top {
+    transition: all 0.3s ease;
+    animation: slideUp 0.3s ease;
+}
+
+.back-to-top:hover {
+    animation: bounce 0.5s ease;
+}
+
+/* ============================================
+   PARALLAX & ADVANCED EFFECTS
+   ============================================ */
+
+/* Hero Background Parallax */
+.hero-background {
+    animation: parallax 0.5s ease-out;
+}
+
+@keyframes parallax {
+    from {
+        transform: scale(1.05);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Gradient Animations */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.btn-primary,
+.impact-stat,
+.testimonial-avatar,
+.contact-icon {
+    animation: gradientShift 3s ease infinite;
+    background-size: 200% 200%;
+}
+
+/* ============================================
+   LOADING ANIMATIONS
+   ============================================ */
+
+/* Skeleton Loader */
+.skeleton {
+    background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Spinner */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gray-200);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
+}
+
+/* ============================================
+   INTERACTION ANIMATIONS
+   ============================================ */
+
+/* Dropdown Menu Animation */
+.dropdown-menu {
+    animation: slideDown 0.3s ease;
+}
+
+/* Mobile Menu Animation */
+.nav-menu.active {
+    animation: slideDown 0.3s ease;
+}
+
+/* Alert/Toast Animation */
+.toast {
+    animation: slideUp 0.3s ease-out;
+}
+
+.toast.hide {
+    animation: slideDown 0.3s ease-in;
+}
+
+/* Modal Animation */
+.modal {
+    animation: zoomIn 0.3s ease;
+}
+
+.modal.hide {
+    animation: zoomOut 0.3s ease;
+}
+
+@keyframes zoomOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* ============================================
+   SMOOTH SCROLL BEHAVIOR
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+}
+
+/* ============================================
+   TRANSITION UTILITIES
+   ============================================ */
+
+/* Smooth Transitions */
+* {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+}
+
+a, button, input, textarea, select {
+    transition-property: all;
+}
+
+/* Disable transitions for performance */
+.no-transition {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* ============================================
+   ACCESSIBILITY ANIMATIONS
+   ============================================ */
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Hardware Acceleration */
+.nav-item,
+.btn,
+.card,
+[data-aos],
+.gallery-item,
+.vision-card,
+.focus-card,
+.community-card,
+.news-card,
+.media-card,
+.testimonial-card {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+/* Glow Pulse Animation for Hero Image */
+@keyframes glow-pulse {
+    0% {
+        box-shadow: 
+            0 20px 60px rgba(255, 149, 0, 0.3),
+            0 0 100px rgba(255, 149, 0, 0.2),
+            0 0 200px rgba(0, 61, 122, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 20px 80px rgba(255, 149, 0, 0.5),
+            0 0 120px rgba(255, 149, 0, 0.4),
+            0 0 250px rgba(0, 61, 122, 0.2);
+    }
+    100% {
+        box-shadow: 
+            0 20px 60px rgba(255, 149, 0, 0.3),
+            0 0 100px rgba(255, 149, 0, 0.2),
+            0 0 200px rgba(0, 61, 122, 0.1);
+    }
+}

@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: khr-website
+    env: python
+    buildCommand: "pip install -r backend/requirements.txt gunicorn"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT --workers 4 --timeout 120 backend.app:app"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: khr-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: MAIL_SERVER
+        sync: false
+      - key: MAIL_PORT
+        value: 587
+      - key: MAIL_USE_TLS
+        value: True
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_DEFAULT_SENDER
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+    healthCheckPath: /api/status
+
+databases:
+  - name: khr-db
+    databaseName: khr_database
+    user: khr_user
