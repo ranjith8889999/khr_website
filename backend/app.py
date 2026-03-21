@@ -129,3 +129,8 @@ async def serve_static(filename: str):
     if index_path.is_file():
         return FileResponse(str(index_path))
     return JSONResponse({'success': False, 'message': 'Not found'}, status_code=404)
+
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run('backend.app:app', host='0.0.0.0', port=8000, reload=True)
