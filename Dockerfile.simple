@@ -1,4 +1,4 @@
-# Dockerfile for Easypanel - Optimized for platform deployment
+# Simplified Dockerfile for Easypanel - Flask only
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -16,22 +16,23 @@ COPY backend/requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
-# Copy application files
+# Copy application
 COPY . .
 
-# Create necessary directories
+# Create directories
 RUN mkdir -p /app/images /app/instance
 
-# Environment variables
+# Environment
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_APP=backend/app.py
+ENV PORT=5000
 
-# Expose port
+# Expose port (Easypanel will map this)
 EXPOSE 5000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:5000/api/status || exit 1
 
-# Run gunicorn (Easypanel uses its own reverse proxy)
-CMD gunicorn --bind 0.0.0.0:5000 --workers 4 --timeout 120 --access-logfile - --error-logfile - backend.app:app
+# Run Flask with gunicorn
+CMD gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 4 --timeout 120 --access-logfile - --error-logfile - backend.app:app
