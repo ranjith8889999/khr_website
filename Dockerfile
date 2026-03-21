@@ -33,5 +33,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:5000/api/status || exit 1
 
-# Run gunicorn (Easypanel uses its own reverse proxy)
-CMD gunicorn --bind 0.0.0.0:5000 --workers 4 --timeout 120 --access-logfile - --error-logfile - backend.app:app
+# Run gunicorn with uvicorn workers for FastAPI
+CMD gunicorn --bind 0.0.0.0:5000 --workers 4 --worker-class uvicorn.workers.UvicornWorker --timeout 120 --access-logfile - --error-logfile - backend.app:app
