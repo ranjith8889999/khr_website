@@ -18,13 +18,13 @@ if [[ $DATABASE_URL == postgresql* ]]; then
     done
 fi
 
-# Initialize database tables
+# Initialize database tables (FastAPI app uses SQLAlchemy directly)
 echo "Initializing database..."
 python -c "
-from backend.app import app, db
-with app.app_context():
-    db.create_all()
-    print('Database tables created successfully!')
+from backend.database import Base, engine
+from backend import models  # noqa: F401 - import so models are registered
+Base.metadata.create_all(bind=engine)
+print('Database tables created successfully!')
 "
 
 # Seed initial data if needed
@@ -33,10 +33,10 @@ if [ "${SEED_DATA:-false}" = "true" ]; then
     python backend/seed_data.py || echo "Seed data script not found or failed"
 fi
 
-echo "Starting Gunicorn server..."
+echo "Starting Gunicorn server (FastAPI via uvicorn worker)..."
 exec gunicorn --bind 0.0.0.0:5000 \
     --workers 4 \
-    --worker-class sync \
+    --worker-class uvicorn.workers.UvicornWorker \
     --timeout 120 \
     --access-logfile - \
     --error-logfile - \
